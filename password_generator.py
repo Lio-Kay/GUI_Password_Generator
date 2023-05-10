@@ -1,7 +1,6 @@
 from secrets import choice
 import string
 
-
 def generate_password() -> str:
     from tkinter_structure import collect_data_to_generate_password
     data = collect_data_to_generate_password()
@@ -12,6 +11,7 @@ def generate_password() -> str:
     password = []
     for symbol in range(data['Password len']):
         password.append(choice(character_list))
+    print(''.join(password))
     return ''.join(password)
 
 

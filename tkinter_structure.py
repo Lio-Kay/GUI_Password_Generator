@@ -1,5 +1,6 @@
 from tkinter import *
-from password_generator import generate_password
+from secrets import choice
+import string
 
 window = Tk()
 window.title('Password Generator')
@@ -38,7 +39,7 @@ def activate_checkboxes_on_radiobutton():
 
 
 def make_1_checkbutton_always_active(checkbutton):
-    if checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + checkbutton_symbols_var.get() == 0:
+    if checkbutton_sum == 0:
         if str(checkbutton) == 'PY_VAR3':
             checkbutton.set(1)
         elif str(checkbutton) == 'PY_VAR4':
@@ -49,12 +50,74 @@ def make_1_checkbutton_always_active(checkbutton):
             checkbutton.set(1_000)
 
 
-def collect_data_to_generate_password():
-    checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + checkbutton_symbols_var.get()
-    data = {'Password len': pass_len.get(),
-            'Radiobutton value': radiobutton_var.get(),
-            'Checkbutton value': checkbutton_sum}
-    return data
+def generate_password() -> str:
+    if radiobutton_var.get() == 0:
+        character_list = get_easy_to_read_tableset(checkbutton_sum)
+    elif radiobutton_var.get() == 1:
+        character_list = get_easy_to_say_tableset(checkbutton_sum)
+    password = []
+    for symbol in range(pass_len.get()):
+        print(character_list)
+        password.append(choice(character_list))
+    print(password)
+    return ''.join(password)
+
+
+def get_easy_to_read_tableset(value:int) -> str:
+    character_list = ''
+    allowed_numbers = '23456789'
+    allowed_upper_letters = 'ABCDEFGHJKMNPQRSTUVXYZ'
+    allowed_lower_letters = 'abcdefghjkmnpqrstuvxyz'
+    allowed_symbols = '!"#$%&()*+,-.:;<=>?@[\/]^_{}~'
+    if value == 1:
+        character_list += allowed_numbers
+    elif value == 10:
+        character_list += allowed_upper_letters
+    elif value == 11:
+        character_list += allowed_numbers
+        character_list += allowed_upper_letters
+    elif value == 100:
+        character_list += allowed_lower_letters
+    elif value == 101:
+        character_list += allowed_numbers
+        character_list += allowed_lower_letters
+    elif value == 111:
+        character_list += allowed_numbers
+        character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
+    elif value == 1_000:
+        character_list += allowed_symbols
+    elif value == 1_001:
+        character_list += allowed_numbers
+        character_list += allowed_symbols
+    elif value == 1_010:
+        character_list += allowed_upper_letters
+        character_list += allowed_symbols
+    elif value == 1_100:
+        character_list += allowed_lower_letters
+        character_list += allowed_symbols
+    elif value == 1_011:
+        character_list += allowed_numbers
+        character_list += allowed_upper_letters
+        character_list += allowed_symbols
+    elif value == 1_111:
+        character_list += allowed_numbers
+        character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
+        character_list += allowed_symbols
+    return character_list
+
+
+def get_easy_to_say_tableset(value:int) -> str:
+    character_list = ''
+    if value == 10:
+        character_list += string.ascii_uppercase
+    elif value == 100:
+        character_list += string.ascii_lowercase
+    elif value == 110:
+        character_list += string.ascii_uppercase
+        character_list += string.ascii_lowercase
+    return character_list
 
 
 # Vars
@@ -67,13 +130,13 @@ checkbutton_upper_var = IntVar(value=1)
 checkbutton_lower_var = IntVar(value=10)
 checkbutton_numbers_var = IntVar(value=100)
 checkbutton_symbols_var = IntVar(value=1_000)
-left_frame = Frame(master=window)
 
 # Frames
-left_subframe_top = Label(master=left_frame, text='Password Length')
-left_subframe_bottom = Frame(master=left_frame)
 middle_frame = Frame(master=window)
 right_frame = Frame(master=window)
+left_frame = Frame(master=window)
+left_subframe_top = Label(master=left_frame, text='Password Length')
+left_subframe_bottom = Frame(master=left_frame)
 bottom_frame = Frame(master=window)
 password_length_entry = Entry(master=left_subframe_bottom, textvariable=pass_len_txt)
 password_length_scale = Scale(master=left_subframe_bottom, from_=4, to=25, variable=pass_len,
@@ -85,9 +148,14 @@ checkbutton_lower = Checkbutton(master=right_frame, text='Lowercase', variable=c
 checkbutton_numbers = Checkbutton(master=right_frame, text='Numbers', variable=checkbutton_numbers_var, onvalue=100, command=lambda: make_1_checkbutton_always_active(checkbutton_numbers_var))
 checkbutton_symbols = Checkbutton(master=right_frame, text='Symbols', variable=checkbutton_symbols_var, onvalue=1_000, command=lambda: make_1_checkbutton_always_active(checkbutton_symbols_var))
 generated_password = Label(master=bottom_frame, text='Your password will be here')
+generate_password_button = Button(master=bottom_frame, text='Generate password', command=generate_password)
+
+checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + checkbutton_symbols_var.get()
+
+generate_password()
+
 
 # Binds
-# password_length_entry.bind('<KeyRelease>', change_slider_value)
 password_length_entry.bind('<KeyRelease>', check_whether_password_len_is_valid)
 password_length_scale.bind('<ButtonRelease-1>', change_entry_len_to_match_slider)
 
@@ -107,5 +175,6 @@ checkbutton_numbers.pack()
 checkbutton_symbols.pack()
 bottom_frame.pack()
 generated_password.pack()
+generate_password_button.pack()
 
 window.mainloop()
