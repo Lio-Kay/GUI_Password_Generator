@@ -63,58 +63,45 @@ def generate_password() -> str:
         print(character_list)
         password.append(choice(character_list))
     password = ''.join(password)
-    print(password)
     generated_password.config(text=password)
+
 
 def get_easy_to_read_tableset(value:int) -> str:
     character_list = ''
-    allowed_upper_letters = 'ABCDEFGHJKMNPQRSTUVXYZ'
-    allowed_lower_letters = 'abcdefghjkmnpqrstuvxyz'
-    allowed_numbers = '23456789'
-    allowed_symbols = '!"#$%&\'()*+,-./:;<=>?@[\]_{}~'
+    upper = 'ABCDEFGHJKMNPQRSTUVXYZ'
+    lower = 'abcdefghjkmnpqrstuvxyz'
+    numbers = '23456789'
+    symbols = '!"#$%&\'()*+,-./:;<=>?@[\]_{}~'
     if value == 1:
-        character_list += allowed_upper_letters
+        character_list = upper
     elif value == 10:
-        character_list += allowed_lower_letters
+        character_list = lower
     elif value == 11:
-        character_list += allowed_upper_letters
-        character_list += allowed_lower_letters
+        character_list = upper+lower
     elif value == 100:
-        character_list += allowed_numbers
+        character_list = numbers
     elif value == 101:
-        character_list += allowed_upper_letters
-        character_list += allowed_numbers
+        character_list = upper+numbers
     elif value == 110:
-        character_list += allowed_lower_letters
-        character_list += allowed_numbers
+        character_list = lower+numbers
     elif value == 111:
-        character_list += allowed_upper_letters
-        character_list += allowed_lower_letters
-        character_list += allowed_numbers
+        character_list = upper+lower+numbers
     elif value == 1_000:
-        character_list += allowed_symbols
+        character_list = symbols
     elif value == 1_001:
-        character_list += allowed_upper_letters
-        character_list += allowed_symbols
+        character_list = upper+symbols
     elif value == 1_010:
-        character_list += allowed_lower_letters
-        character_list += allowed_symbols
-    elif value == 1_100:
-        character_list += allowed_numbers
-        character_list += allowed_symbols
+        character_list = lower+symbols
     elif value == 1_011:
-        character_list += allowed_upper_letters
-        character_list += allowed_lower_letters
-        character_list += allowed_symbols
+        character_list = upper+lower+symbols
+    elif value == 1_100:
+        character_list = numbers+symbols
+    elif value == 1_101:
+        character_list = upper+numbers+symbols
     elif value == 1_110:
-        character_list += allowed_lower_letters
-        character_list += allowed_numbers
-        character_list += allowed_symbols
+        character_list = lower+numbers+symbols
     elif value == 1_111:
-        character_list += allowed_upper_letters
-        character_list += allowed_lower_letters
-        character_list += allowed_numbers
-        character_list += allowed_symbols
+        character_list = upper+lower+numbers+symbols
     return character_list
 
 
@@ -126,8 +113,7 @@ def get_easy_to_say_tableset(value:int) -> str:
     elif value == 10:
         character_list += string.ascii_lowercase
     elif value == 11:
-        character_list += string.ascii_uppercase
-        character_list += string.ascii_lowercase
+        character_list += string.ascii_letters
     return character_list
 
 
