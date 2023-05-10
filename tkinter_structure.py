@@ -51,6 +51,7 @@ def make_1_checkbutton_always_active(checkbutton):
 
 
 def generate_password() -> str:
+    checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + checkbutton_symbols_var.get()
     if radiobutton_var.get() == 0:
         character_list = get_easy_to_read_tableset(checkbutton_sum)
     elif radiobutton_var.get() == 1:
@@ -65,56 +66,60 @@ def generate_password() -> str:
 
 def get_easy_to_read_tableset(value:int) -> str:
     character_list = ''
-    allowed_numbers = '23456789'
     allowed_upper_letters = 'ABCDEFGHJKMNPQRSTUVXYZ'
     allowed_lower_letters = 'abcdefghjkmnpqrstuvxyz'
+    allowed_numbers = '23456789'
     allowed_symbols = '!"#$%&()*+,-.:;<=>?@[\/]^_{}~'
     if value == 1:
-        character_list += allowed_numbers
+        character_list += allowed_upper_letters
     elif value == 10:
-        character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
     elif value == 11:
-        character_list += allowed_numbers
         character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
     elif value == 100:
-        character_list += allowed_lower_letters
+        character_list += allowed_numbers
     elif value == 101:
+        character_list += allowed_upper_letters
         character_list += allowed_numbers
+    elif value == 110:
         character_list += allowed_lower_letters
-    elif value == 111:
         character_list += allowed_numbers
+    elif value == 111:
         character_list += allowed_upper_letters
         character_list += allowed_lower_letters
+        character_list += allowed_numbers
     elif value == 1_000:
         character_list += allowed_symbols
     elif value == 1_001:
-        character_list += allowed_numbers
+        character_list += allowed_upper_letters
         character_list += allowed_symbols
     elif value == 1_010:
-        character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
         character_list += allowed_symbols
     elif value == 1_100:
-        character_list += allowed_lower_letters
+        character_list += allowed_numbers
         character_list += allowed_symbols
     elif value == 1_011:
-        character_list += allowed_numbers
-        character_list += allowed_upper_letters
-        character_list += allowed_symbols
-    elif value == 1_111:
-        character_list += allowed_numbers
         character_list += allowed_upper_letters
         character_list += allowed_lower_letters
+        character_list += allowed_symbols
+    elif value == 1_111:
+        character_list += allowed_upper_letters
+        character_list += allowed_lower_letters
+        character_list += allowed_numbers
         character_list += allowed_symbols
     return character_list
 
 
 def get_easy_to_say_tableset(value:int) -> str:
+    print(value)
     character_list = ''
-    if value == 10:
+    if value == 1:
         character_list += string.ascii_uppercase
-    elif value == 100:
+    elif value == 10:
         character_list += string.ascii_lowercase
-    elif value == 110:
+    elif value == 11:
         character_list += string.ascii_uppercase
         character_list += string.ascii_lowercase
     return character_list
@@ -125,6 +130,7 @@ pass_len = IntVar()
 pass_len.set(4)
 pass_len_txt = StringVar()
 pass_len_txt.set('4')
+radiobutton_var = IntVar()
 radiobutton_var = IntVar()
 checkbutton_upper_var = IntVar(value=1)
 checkbutton_lower_var = IntVar(value=10)
@@ -150,7 +156,6 @@ checkbutton_symbols = Checkbutton(master=right_frame, text='Symbols', variable=c
 generated_password = Label(master=bottom_frame, text='Your password will be here')
 generate_password_button = Button(master=bottom_frame, text='Generate password', command=generate_password)
 
-checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + checkbutton_symbols_var.get()
 
 generate_password()
 
