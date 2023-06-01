@@ -32,36 +32,37 @@ def get_easy_to_read_tableset(value: int) -> str:
     lower = 'abcdefghjkmnpqrstuvxyz'
     numbers = '23456789'
     symbols = '!"#$%&\'()*+,-./:;<=>?@[\]_{}~'
-    if value == 1:
-        character_list = upper
-    elif value == 10:
-        character_list = lower
-    elif value == 11:
-        character_list = upper+lower
-    elif value == 100:
-        character_list = numbers
-    elif value == 101:
-        character_list = upper+numbers
-    elif value == 110:
-        character_list = lower+numbers
-    elif value == 111:
-        character_list = upper+lower+numbers
-    elif value == 1_000:
-        character_list = symbols
-    elif value == 1_001:
-        character_list = upper+symbols
-    elif value == 1_010:
-        character_list = lower+symbols
-    elif value == 1_011:
-        character_list = upper+lower+symbols
-    elif value == 1_100:
-        character_list = numbers+symbols
-    elif value == 1_101:
-        character_list = upper+numbers+symbols
-    elif value == 1_110:
-        character_list = lower+numbers+symbols
-    elif value == 1_111:
-        character_list = upper+lower+numbers+symbols
+    match value:
+        case 1:
+            character_list = upper
+        case 10:
+            character_list = lower
+        case 11:
+            character_list = upper+lower
+        case 100:
+            character_list = numbers
+        case 101:
+            character_list = upper+numbers
+        case 110:
+            character_list = lower+numbers
+        case 111:
+            character_list = upper+lower+numbers
+        case 1_000:
+            character_list = symbols
+        case 1_001:
+            character_list = upper+symbols
+        case 1_010:
+            character_list = lower+symbols
+        case 1_011:
+            character_list = upper+lower+symbols
+        case 1_100:
+            character_list = numbers+symbols
+        case 1_101:
+            character_list = upper+numbers+symbols
+        case 1_110:
+            character_list = lower+numbers+symbols
+        case 1_111:
+            character_list = upper+lower+numbers+symbols
     return character_list
 
 
@@ -132,14 +133,11 @@ def make_1_checkbutton_active(checkbutton: object) -> None:
     checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() +\
                       checkbutton_symbols_var.get()
     if checkbutton_sum == 0:
-        if str(checkbutton) == 'PY_VAR3':
-            checkbutton.set(1)
-        elif str(checkbutton) == 'PY_VAR4':
-            checkbutton.set(10)
-        elif str(checkbutton) == 'PY_VAR5':
-            checkbutton.set(100)
-        elif str(checkbutton) == 'PY_VAR6':
-            checkbutton.set(1_000)
+        match str(checkbutton):
+            case 'PY_VAR3': checkbutton.set(1)
+            case 'PY_VAR4': checkbutton.set(10)
+            case 'PY_VAR5': checkbutton.set(100)
+            case 'PY_VAR6': checkbutton.set(1_000)
 
 
 def copy_on_button(event=None) -> None:
