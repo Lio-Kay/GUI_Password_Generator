@@ -1,5 +1,9 @@
 from tkinter import *
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from ttkbootstrap.utility import *
 from secrets import choice
+from screeninfo import get_monitors
 import string
 
 
@@ -151,7 +155,18 @@ def copy_on_button(event=None) -> None:
 # Tk initialization
 window = Tk()
 window.title('Password Generator')
-window.geometry('330x310+100+100')
+for monitor in get_monitors():
+    if monitor.is_primary:
+        width = monitor.width
+        heigth = monitor.height
+window.geometry(f'{round(width*0.2)}x{round(heigth*0.35)}+{round(width*0.1)}+{round(heigth*0.1)}')
+for r in range(9): window.rowconfigure(index=r, weight=1)
+for c in range(4): window.columnconfigure(index=c, weight=1)
+
+
+# Style
+style = ttk.Style('darkly')
+style.configure('.', font=('Helvetica', 14), justify=CENTER)
 
 # Vars
 pass_len = IntVar()
@@ -167,89 +182,55 @@ password_text = StringVar()
 password_text.set('Your password will be here')
 
 # Frames
-# Нужно было делать по ООП. Ну ладно, сделаю в следующем проекте
 window.configure(background='#141414', cursor='left_ptr')
-length_frame = Frame(master=window, background='#141414', pady=8)
-length_subframe_1 = Frame(master=length_frame)
-length_subframe_2 = Frame(master=length_frame)
-radiobutton_frame = Frame(master=window, background='#141414')
-checkbutton_frame = Frame(master=window, background='#141414')
-checkbutton_subframe_1 = Frame(master=checkbutton_frame, background='#141414', border=5)
-checkbutton_subframe_2 = Frame(master=checkbutton_frame, background='#141414', border=5)
-password_frame = Frame(master=window, background='#141414', border=5)
 
-length_label = Label(master=length_frame, text='Password Length', font='Verdana 11 bold', fg='#141414', bg='#0C7489',
-                     bd=3, padx=80, relief=FLAT)
-password_length_entry = Entry(master=length_subframe_1, textvariable=pass_len_txt, width=13, font='Verdana',
-                              justify=CENTER, background='#119DA4', bd=0, relief=FLAT, cursor='arrow',
-                              selectborderwidth=0, selectforeground='#141414', selectbackground='white')
-password_length_scale = Scale(master=length_subframe_2, from_=4, to=20, variable=pass_len, length=130,
-                              highlightthickness=0, orient='horizontal', sliderlength=15, font='Verdana', fg='#141414',
-                              background='#119DA4', bd=0, relief=FLAT, sliderrelief=GROOVE, troughcolor='#BAEBEE',
-                              cursor='arrow')
+length_label = ttk.Label(master=window, text='Password Length', style='success', font=('Helvetica', 14, 'bold'), anchor=CENTER)
+password_length_entry = ttk.Entry(master=window, textvariable=pass_len_txt, font='Helvetica 14', justify=CENTER, width=11)
+password_length_scale = ttk.Scale(master=window, from_=4, to=20, variable=pass_len, style='success')
 
-radiobutton_easy_to_read = Radiobutton(master=radiobutton_frame, text='Easy to read', variable=radiobutton_var,
-                                       value=0, command=activate_checkboxes_on_radiobutton, font='Verdana',
-                                       fg='#141414', activeforeground='white', bg='#0C7489',
-                                       activebackground='#119DA4', borderwidth=4, cursor='arrow')
-radiobutton_easy_to_say = Radiobutton(master=radiobutton_frame, text='Easy to say', variable=radiobutton_var,
-                                      value=1, command=disable_checkboxes_on_radiobutton, font='Verdana',
-                                      fg='#141414', activeforeground='white', bg='#119DA4', activebackground='#119DA4',
-                                      borderwidth=4, background='#0C7489', cursor='arrow')
+radiobutton_easy_to_read = ttk.Radiobutton(master=window, text='Easy to read', variable=radiobutton_var,
+                                       value=0, command=activate_checkboxes_on_radiobutton, style='success-toolbutton')
+radiobutton_easy_to_say = ttk.Radiobutton(master=window, text='Easy to say', variable=radiobutton_var,
+                                      value=1, command=disable_checkboxes_on_radiobutton, style='success-toolbutton')
 
-checkbutton_upper = Checkbutton(master=checkbutton_subframe_1, text='Uppercase', variable=checkbutton_upper_var,
-                                command=lambda: make_1_checkbutton_active(checkbutton_upper_var), font='Verdana',
-                                fg='#141414', activeforeground='white', bg='#119DA4', activebackground='#119DA4',
-                                borderwidth=4, background='#0C7489', cursor='arrow')
-checkbutton_lower = Checkbutton(master=checkbutton_subframe_1, text='Lowercase', variable=checkbutton_lower_var,
-                                onvalue=10, command=lambda: make_1_checkbutton_active(checkbutton_lower_var),
-                                font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4',
-                                activebackground='#119DA4', borderwidth=4, background='#0C7489', cursor='arrow')
-checkbutton_numbers = Checkbutton(master=checkbutton_subframe_2, text='Numbers', variable=checkbutton_numbers_var,
-                                  onvalue=100, command=lambda: make_1_checkbutton_active(checkbutton_numbers_var),
-                                  font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4',
-                                  activebackground='#119DA4', borderwidth=4, background='#0C7489', cursor='arrow')
-checkbutton_symbols = Checkbutton(master=checkbutton_subframe_2, text='Symbols', variable=checkbutton_symbols_var,
-                                  onvalue=1_000, command=lambda: make_1_checkbutton_active(checkbutton_symbols_var),
-                                  font='Verdana', justify=LEFT, padx=3, fg='#141414', activeforeground='white',
-                                  bg='#119DA4', activebackground='#119DA4', borderwidth=4, background='#0C7489',
-                                  cursor='arrow')
+checkbutton_upper = ttk.Checkbutton(master=window, text='Uppercase', variable=checkbutton_upper_var,
+                                    command=lambda: make_1_checkbutton_active(checkbutton_upper_var),
+                                    style='success-square-toggle')
+checkbutton_lower = ttk.Checkbutton(master=window, text='Lowercase', variable=checkbutton_lower_var,
+                                    onvalue=10, command=lambda: make_1_checkbutton_active(checkbutton_lower_var),
+                                    style='success-square-toggle')
+checkbutton_numbers = ttk.Checkbutton(master=window, text='Numbers', variable=checkbutton_numbers_var,
+                                      onvalue=100, command=lambda: make_1_checkbutton_active(checkbutton_numbers_var),
+                                      style='success-square-toggle')
+checkbutton_symbols = ttk.Checkbutton(master=window, text='Symbols', variable=checkbutton_symbols_var,
+                                      onvalue=1_000, command=lambda: make_1_checkbutton_active(checkbutton_symbols_var),
+                                      style='success-square-toggle')
 
-generated_password = Label(master=password_frame, textvariable=password_text, font='Verdana 13 bold', width=24, pady=4,
-                           fg='#141414', bg='#BAEBEE', bd=4, relief=FLAT, highlightthickness=0,
-                           highlightbackground='#141414')
-generate_password_button = Button(master=password_frame, text='Generate', command=generate_password, font='Verdana',
-                                  width=11, fg='#141414', bg='#0C7489', activebackground='#119DA4',
-                                  activeforeground='white', bd=1, relief=FLAT)
-copy_generated_password = Button(master=password_frame, text='Copy', font='Verdana', width=10, fg='#141414',
-                                 bg='#0C7489', activebackground='#119DA4', activeforeground='white', bd=1, relief=FLAT)
+generated_password = ttk.Label(master=window, textvariable=password_text, style='success', anchor=CENTER)
+generate_password_button = ttk.Button(master=window, text='Generate', command=generate_password, style='success-outline', width=10, padding=8)
+copy_generated_password = ttk.Button(master=window, text='Copy', style='success-outline', width=10, padding=8)
 
 # Binds
 password_length_entry.bind('<KeyRelease>', check_whether_password_len_is_valid)
 password_length_scale.bind('<ButtonRelease-1>', change_entry_len_to_match_slider)
 copy_generated_password.bind('<ButtonRelease-1>', copy_on_button)
 
+
 # Packing
-length_frame.pack()
-radiobutton_frame.pack(pady=(7, 5))
-checkbutton_frame.pack(pady=(0, 5))
-checkbutton_subframe_1.pack(side=LEFT)
-checkbutton_subframe_2.pack()
-password_frame.pack()
-length_label.pack()
-length_subframe_1.pack(side=LEFT, padx=(16, 8),pady=(8, 0), anchor='n')
-length_subframe_2.pack(pady=(8, 0))
-password_length_entry.pack()
-password_length_scale.pack()
-radiobutton_easy_to_read.pack(side=LEFT, padx=(4, 12))
-radiobutton_easy_to_say.pack(side=RIGHT, padx=0)
-checkbutton_upper.pack(pady=5)
-checkbutton_lower.pack()
-checkbutton_numbers.pack(pady=5)
-checkbutton_symbols.pack()
-generated_password.pack(pady=(0, 4))
-generate_password_button.pack(side=LEFT, padx=(30, 0))
-copy_generated_password.pack(anchor='e', padx=(0, 30))
+length_label.grid(row=1, column=1, columnspan=2, ipadx=56, ipady=5)
+password_length_entry.grid(row=2, column=1, pady=0, padx=(38, 0))
+password_length_scale.grid(row=2, column=2, padx=(0, 42))
+radiobutton_easy_to_read.grid(row=3, column=1, padx=(38, 0))
+radiobutton_easy_to_say.grid(row=3, column=2, ipadx=4, padx=(0, 42))
+checkbutton_upper.grid(row=4, column=1, ipadx=5, ipady=5, padx=(38, 0))
+checkbutton_numbers.grid(row=4, column=2, ipadx=13, ipady=5, padx=(0, 42))
+checkbutton_lower.grid(row=5, column=1, ipadx=5, ipady=5, padx=(38, 0))
+checkbutton_symbols.grid(row=5, column=2, ipadx=14, ipady=5, padx=(0, 42))
+generated_password.grid(row=6, column=1, columnspan=2, ipadx=10)
+generate_password_button.grid(row=7, column=1, padx=(38, 0))
+copy_generated_password.grid(row=7, column=2, padx=(0, 44))
+
+scale_size(checkbutton_symbols, 1000)
 
 
 if __name__ == '__main__':
