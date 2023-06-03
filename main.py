@@ -162,6 +162,7 @@ for monitor in get_monitors():
 window.geometry(f'{round(width*0.2)}x{round(heigth*0.35)}+{round(width*0.1)}+{round(heigth*0.1)}')
 for r in range(9): window.rowconfigure(index=r, weight=1)
 for c in range(4): window.columnconfigure(index=c, weight=1)
+window.minsize(round(width*0.2), round(heigth*0.35))
 
 
 # Style
@@ -184,31 +185,38 @@ password_text.set('Your password will be here')
 # Frames
 window.configure(background='#141414', cursor='left_ptr')
 
-length_label = ttk.Label(master=window, text='Password Length', style='success', font=('Helvetica', 14, 'bold'), anchor=CENTER)
-password_length_entry = ttk.Entry(master=window, textvariable=pass_len_txt, font='Helvetica 14', justify=CENTER, width=11)
-password_length_scale = ttk.Scale(master=window, from_=4, to=20, variable=pass_len, style='success')
+length_label = ttk.Label(master=window, text='Password Length',
+                         style='success', font=('Helvetica', 14, 'bold'), anchor=CENTER)
+password_length_entry = ttk.Entry(master=window, textvariable=pass_len_txt, width=11, font='Helvetica 14',
+                                  justify=CENTER, cursor='arrow', style='dark')
+password_length_scale = ttk.Scale(master=window, from_=4, to=20, variable=pass_len,
+                                  cursor='hand2', style='success')
 
 radiobutton_easy_to_read = ttk.Radiobutton(master=window, text='Easy to read', variable=radiobutton_var,
-                                       value=0, command=activate_checkboxes_on_radiobutton, style='success-toolbutton')
+                                           value=0, command=activate_checkboxes_on_radiobutton,
+                                           cursor='arrow', style='success-toolbutton')
 radiobutton_easy_to_say = ttk.Radiobutton(master=window, text='Easy to say', variable=radiobutton_var,
-                                      value=1, command=disable_checkboxes_on_radiobutton, style='success-toolbutton')
+                                          value=1, command=disable_checkboxes_on_radiobutton,
+                                          cursor='arrow', style='success-toolbutton')
 
 checkbutton_upper = ttk.Checkbutton(master=window, text='Uppercase', variable=checkbutton_upper_var,
                                     command=lambda: make_1_checkbutton_active(checkbutton_upper_var),
-                                    style='success-square-toggle')
+                                    cursor='arrow', style='success-square-toggle')
 checkbutton_lower = ttk.Checkbutton(master=window, text='Lowercase', variable=checkbutton_lower_var,
                                     onvalue=10, command=lambda: make_1_checkbutton_active(checkbutton_lower_var),
-                                    style='success-square-toggle')
+                                    cursor='arrow', style='success-square-toggle')
 checkbutton_numbers = ttk.Checkbutton(master=window, text='Numbers', variable=checkbutton_numbers_var,
                                       onvalue=100, command=lambda: make_1_checkbutton_active(checkbutton_numbers_var),
-                                      style='success-square-toggle')
+                                      cursor='arrow', style='success-square-toggle')
 checkbutton_symbols = ttk.Checkbutton(master=window, text='Symbols', variable=checkbutton_symbols_var,
                                       onvalue=1_000, command=lambda: make_1_checkbutton_active(checkbutton_symbols_var),
-                                      style='success-square-toggle')
+                                      cursor='arrow', style='success-square-toggle')
 
-generated_password = ttk.Label(master=window, textvariable=password_text, style='success', anchor=CENTER)
-generate_password_button = ttk.Button(master=window, text='Generate', command=generate_password, style='success-outline', width=10, padding=8)
-copy_generated_password = ttk.Button(master=window, text='Copy', style='success-outline', width=10, padding=8)
+generated_password = ttk.Label(master=window, textvariable=password_text, style='light', anchor=CENTER)
+generate_password_button = ttk.Button(master=window, text='Generate', command=generate_password, width=10, padding=8,
+                                      cursor='arrow', style='success-outline')
+copy_generated_password = ttk.Button(master=window, text='Copy', width=10, padding=8,
+                                     cursor='arrow', style='success-outline')
 
 # Binds
 password_length_entry.bind('<KeyRelease>', check_whether_password_len_is_valid)
@@ -226,7 +234,7 @@ checkbutton_upper.grid(row=4, column=1, ipadx=5, ipady=5, padx=(38, 0))
 checkbutton_numbers.grid(row=4, column=2, ipadx=13, ipady=5, padx=(0, 42))
 checkbutton_lower.grid(row=5, column=1, ipadx=5, ipady=5, padx=(38, 0))
 checkbutton_symbols.grid(row=5, column=2, ipadx=14, ipady=5, padx=(0, 42))
-generated_password.grid(row=6, column=1, columnspan=2, ipadx=10)
+generated_password.grid(row=6, column=1, columnspan=2, padx=(44, 48), sticky="nsew")
 generate_password_button.grid(row=7, column=1, padx=(38, 0))
 copy_generated_password.grid(row=7, column=2, padx=(0, 44))
 
