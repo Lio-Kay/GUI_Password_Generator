@@ -1,11 +1,14 @@
 from tkinter import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-from ttkbootstrap.utility import *
 from secrets import choice
 from screeninfo import get_monitors
+import logging
 import string
 
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 
 def generate_password() -> None:
     """
@@ -111,9 +114,19 @@ def change_entry_len_to_match_slider(event=None) -> None:
     password_length_entry.insert(0, pass_len.get())
 
 
+def activate_checkboxes_on_radiobutton() -> None:
+    """
+    Делает активными 2 checkbox при нажатии кнопки 'Easy to read'
+    """
+    checkbutton_numbers.config(state='active')
+    checkbutton_numbers_var.set(100)
+    checkbutton_symbols.config(state='active')
+    checkbutton_symbols_var.set(1_000)
+
+
 def disable_checkboxes_on_radiobutton() -> None:
     """
-    Делает неактивными 2 чекбокса про нажатию кнопки 'Easy to say'
+    Делает неактивными 2 checkbox при нажатии кнопки 'Easy to say'
     """
     checkbutton_numbers.config(state='disabled')
     checkbutton_numbers_var.set(0)
@@ -122,17 +135,9 @@ def disable_checkboxes_on_radiobutton() -> None:
     checkbutton_upper_var.set(1)
 
 
-def activate_checkboxes_on_radiobutton() -> None:
-    """
-    Делает активными 2 checkbox при нажании кнопки 'Easy to read'
-    """
-    checkbutton_numbers.config(state='active')
-    checkbutton_symbols.config(state='active')
-
-
 def make_1_checkbutton_active(checkbutton: object) -> None:
     """
-    Проверяет состояние 4 4 checkbox и если остался только один, не даёт его выключить
+    Проверяет состояние всех checkbox и если остался только один, не даёт его выключить
     """
     checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() +\
                       checkbutton_symbols_var.get()
@@ -155,39 +160,38 @@ def copy_on_button(event=None) -> None:
 # Tk initialization
 window = Tk()
 window.title('Password Generator')
+width = 1920
+height = 1080
 for monitor in get_monitors():
     if monitor.is_primary:
         width = monitor.width
-        heigth = monitor.height
-window.geometry(f'{round(width*0.2)}x{round(heigth*0.35)}+{round(width*0.1)}+{round(heigth*0.1)}')
+        height = monitor.height
+
+window.geometry(f'{round(width*0.2)}x{round(height * 0.35)}+{round(width * 0.1)}+{round(height * 0.1)}')
 for r in range(9): window.rowconfigure(index=r, weight=1)
 for c in range(4): window.columnconfigure(index=c, weight=1)
-window.minsize(round(width*0.2), round(heigth*0.35))
-
+window.minsize(round(width*0.2), round(height * 0.35))
 
 # Style
 style = ttk.Style('darkly')
 style.configure('.', font=('Helvetica', 14), justify=CENTER)
 
 # Vars
-pass_len = IntVar()
-pass_len.set(10)
-pass_len_txt = StringVar()
-pass_len_txt.set('10')
+pass_len = IntVar(value=10)
+pass_len_txt = StringVar(value=10)
 radiobutton_var = IntVar()
 checkbutton_upper_var = IntVar(value=1)
 checkbutton_lower_var = IntVar(value=10)
 checkbutton_numbers_var = IntVar(value=100)
 checkbutton_symbols_var = IntVar(value=1_000)
-password_text = StringVar()
-password_text.set('Your password will be here')
+password_text = StringVar(value='Your password will be here')
 
 # Frames
 window.configure(background='#141414', cursor='left_ptr')
 
 length_label = ttk.Label(master=window, text='Password Length',
                          style='success', font=('Helvetica', 14, 'bold'), anchor=CENTER)
-password_length_entry = ttk.Entry(master=window, textvariable=pass_len_txt, width=11, font='Helvetica 14',
+password_length_entry = ttk.Entry(master=window, textvariable=pass_len_txt, width=11,
                                   justify=CENTER, cursor='arrow', style='dark')
 password_length_scale = ttk.Scale(master=window, from_=4, to=20, variable=pass_len,
                                   cursor='hand2', style='success')
@@ -212,11 +216,13 @@ checkbutton_symbols = ttk.Checkbutton(master=window, text='Symbols', variable=ch
                                       onvalue=1_000, command=lambda: make_1_checkbutton_active(checkbutton_symbols_var),
                                       cursor='arrow', style='success-square-toggle')
 
-generated_password = ttk.Label(master=window, textvariable=password_text, style='light', anchor=CENTER)
+generated_password = ttk.Label(master=window, textvariable=password_text,
+                               style='light', anchor=CENTER, font=('Helvetica', 13))
 generate_password_button = ttk.Button(master=window, text='Generate', command=generate_password, width=10, padding=8,
                                       cursor='arrow', style='success-outline')
 copy_generated_password = ttk.Button(master=window, text='Copy', width=10, padding=8,
                                      cursor='arrow', style='success-outline')
+
 
 # Binds
 password_length_entry.bind('<KeyRelease>', check_whether_password_len_is_valid)
@@ -237,8 +243,6 @@ checkbutton_symbols.grid(row=5, column=2, ipadx=14, ipady=5, padx=(0, 42))
 generated_password.grid(row=6, column=1, columnspan=2, padx=(44, 48), sticky="nsew")
 generate_password_button.grid(row=7, column=1, padx=(38, 0))
 copy_generated_password.grid(row=7, column=2, padx=(0, 44))
-
-scale_size(checkbutton_symbols, 1000)
 
 
 if __name__ == '__main__':
