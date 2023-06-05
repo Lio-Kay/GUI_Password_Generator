@@ -6,7 +6,7 @@ import string
 def generate_password() -> None:
     """
     Основная функция, генерирует пароль основываясь на 1 slider, 2 radiobuttons и 4 checkbuttons
-    :return: Выводит резултат генерации на GUI по нажатию кнопки generate_password_button
+    :return: Выводит результат генерации на GUI по нажатию кнопки generate_password_button
     """
     checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + \
                       checkbutton_symbols_var.get()
@@ -70,7 +70,7 @@ def get_easy_to_say_tableset(value: int) -> str:
     """
     Создает набор из заглавных и строчных букв
     :param value: Сумма 2 checkbuttons для получения всех комбинаций
-    :return: Одна из 3 кобинаций символов для генерации пароля
+    :return: Одна из 3 комбинаций символов для генерации пароля
     """
     character_list = ''
     if value == 1:
@@ -85,7 +85,7 @@ def get_easy_to_say_tableset(value: int) -> str:
 # Скрипты элементов tkinter
 def check_whether_password_len_is_valid(event=None) -> None:
     """
-    Проверяет длинну пароля в Entry и не позволяет сделать его вне установленного диапазона
+    Проверяет длину пароля в Entry и не позволяет сделать его вне установленного диапазона
     """
     try:
         int(password_length_entry.get())
@@ -107,9 +107,19 @@ def change_entry_len_to_match_slider(event=None) -> None:
     password_length_entry.insert(0, pass_len.get())
 
 
+def activate_checkboxes_on_radiobutton() -> None:
+    """
+    Делает активными 2 checkbox при нажании кнопки 'Easy to read'
+    """
+    checkbutton_numbers.config(state='active')
+    checkbutton_numbers_var.set(100)
+    checkbutton_symbols.config(state='active')
+    checkbutton_symbols_var.set(1_000)
+
+
 def disable_checkboxes_on_radiobutton() -> None:
     """
-    Делает неактивными 2 чекбокса про нажатию кнопки 'Easy to say'
+    Делает неактивными 2 чекбокса при нажатии кнопки 'Easy to say'
     """
     checkbutton_numbers.config(state='disabled')
     checkbutton_numbers_var.set(0)
@@ -118,17 +128,9 @@ def disable_checkboxes_on_radiobutton() -> None:
     checkbutton_upper_var.set(1)
 
 
-def activate_checkboxes_on_radiobutton() -> None:
-    """
-    Делает активными 2 checkbox при нажании кнопки 'Easy to read'
-    """
-    checkbutton_numbers.config(state='active')
-    checkbutton_symbols.config(state='active')
-
-
 def make_1_checkbutton_active(checkbutton: object) -> None:
     """
-    Проверяет состояние 4 4 checkbox и если остался только один, не даёт его выключить
+    Проверяет состояние четырех checkbox и если остался только один, не даёт его выключить
     """
     checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() +\
                       checkbutton_symbols_var.get()
@@ -154,10 +156,8 @@ window.title('Password Generator')
 window.geometry('330x310+100+100')
 
 # Vars
-pass_len = IntVar()
-pass_len.set(10)
-pass_len_txt = StringVar()
-pass_len_txt.set('10')
+pass_len = IntVar(value=10)
+pass_len_txt = StringVar(value=10)
 radiobutton_var = IntVar()
 checkbutton_upper_var = IntVar(value=1)
 checkbutton_lower_var = IntVar(value=10)
@@ -167,7 +167,6 @@ password_text = StringVar()
 password_text.set('Your password will be here')
 
 # Frames
-# Нужно было делать по ООП. Ну ладно, сделаю в следующем проекте
 window.configure(background='#141414', cursor='left_ptr')
 length_frame = Frame(master=window, background='#141414', pady=8)
 length_subframe_1 = Frame(master=length_frame)
