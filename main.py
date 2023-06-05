@@ -51,32 +51,35 @@ radiobutton_easy_to_say = Radiobutton \
      font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4', activebackground='#119DA4', borderwidth=4,
      background='#0C7489', cursor='arrow')
 
+
+    # TODO Fix NameError: name 'checkbutton' is not defined in lambda expr
+
 checkbutton_upper = Checkbutton \
     (master=checkbutton_subframe_1, text='Uppercase', variable=checkbutton_upper_var,
      command=lambda: make_1_checkbutton_active
      (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var,
-      checkbutton_symbols_var, checkbutton_upper_var),
+      checkbutton_symbols_var, checkbutton),
      font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4', activebackground='#119DA4', borderwidth=4,
      background='#0C7489', cursor='arrow')
 checkbutton_lower = Checkbutton \
     (master=checkbutton_subframe_1, text='Lowercase', variable=checkbutton_lower_var, onvalue=10,
      command=lambda: make_1_checkbutton_active
      (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var, \
-      checkbutton_symbols_var, checkbutton_lower_var),
+      checkbutton_symbols_var, checkbutton),
      font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4', activebackground='#119DA4', borderwidth=4,
      background='#0C7489', cursor='arrow')
 checkbutton_numbers = Checkbutton \
     (master=checkbutton_subframe_2, text='Numbers', variable=checkbutton_numbers_var, onvalue=100,
      command=lambda: make_1_checkbutton_active
      (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var,
-      checkbutton_symbols_var, checkbutton_numbers_var),
+      checkbutton_symbols_var, checkbutton),
      font='Verdana', fg='#141414', activeforeground='white', bg='#119DA4',
      activebackground='#119DA4', borderwidth=4, background='#0C7489', cursor='arrow')
 checkbutton_symbols = Checkbutton \
     (master=checkbutton_subframe_2, text='Symbols', variable=checkbutton_symbols_var, onvalue=1_000,
      command=lambda: make_1_checkbutton_active
      (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var,
-      checkbutton_symbols_var, checkbutton_symbols_var), font='Verdana', justify=LEFT, padx=3, fg='#141414',
+      checkbutton_symbols_var, checkbutton), font='Verdana', justify=LEFT, padx=3, fg='#141414',
      activeforeground='white', bg='#119DA4', activebackground='#119DA4', borderwidth=4, background='#0C7489',
      cursor='arrow')
 
