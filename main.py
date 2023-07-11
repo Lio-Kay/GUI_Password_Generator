@@ -267,7 +267,6 @@ class Functions(Main_window, Elements):
 
 
 
-
 # from tkinter import *
 # import ttkbootstrap as ttk
 # from ttkbootstrap.constants import *
