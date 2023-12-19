@@ -6,7 +6,7 @@
 между комбинациями заглавных, строчных букв, чисел, и символов.
 
 ## Пример работы программы
-![usage_example.gif](readme_assets%2Fusage_example.gif?)
+![usage_example_1.gif](readme_assets%2Fusage_example_1.gif?)
 
 ## Инициализация проекта
 Введите в консоль (UNIX):
