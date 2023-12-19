@@ -3,7 +3,15 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from screeninfo import get_monitors
 
-from logic_functions import *
+from logic_functions import (generate_password, get_easy_to_read_table_set,
+                             get_easy_to_say_table_set,
+                             check_whether_password_len_is_valid,
+                             change_entry_len_to_match_slider,
+                             activate_checkboxes_on_radiobutton,
+                             disable_checkboxes_on_radiobutton,
+                             make_1_checkbutton_active,
+                             copy_on_button)
+
 
 # Tk initialization
 window = Tk()
@@ -16,7 +24,8 @@ for monitor in get_monitors():
         height = monitor.height
 
 # Grid
-window.geometry(f'{round(width * 0.2)}x{round(height * 0.35)}+{round(width * 0.1)}+{round(height * 0.1)}')
+window.geometry(f'{round(width * 0.2)}x{round(height * 0.35)}+'
+                f'{round(width * 0.1)}+{round(height * 0.1)}')
 for r in range(9): window.rowconfigure(index=r, weight=1)
 for c in range(4): window.columnconfigure(index=c, weight=1)
 window.minsize(round(width * 0.2), round(height * 0.35))
@@ -81,33 +90,48 @@ generated_password = ttk.Label(master=window, textvariable=password_text,
                                style='light', anchor=CENTER, font=('Helvetica', 13))
 generate_password_button = ttk.Button \
     (master=window, text='Generate', command=lambda: generate_password
-    (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var, checkbutton_symbols_var,
-     radiobutton_var, pass_len, password_text),
+    (checkbutton_upper_var, checkbutton_lower_var, checkbutton_numbers_var,
+     checkbutton_symbols_var, radiobutton_var, pass_len, password_text),
      width=10, padding=8, cursor='arrow', style='success-outline')
 copy_generated_password = ttk.Button(master=window, text='Copy', width=10, padding=8,
                                      cursor='arrow', style='success-outline')
 
 # Binds
-# Binds
 password_length_entry.bind('<KeyRelease>',
-                           lambda x: check_whether_password_len_is_valid(password_length_entry, pass_len_txt, pass_len))
+                           lambda x: check_whether_password_len_is_valid
+                           (password_length_entry, pass_len_txt, pass_len))
 password_length_scale.bind('<ButtonRelease-1>',
-                           lambda x: change_entry_len_to_match_slider(password_length_entry, pass_len))
-copy_generated_password.bind('<ButtonRelease-1>', lambda x: copy_on_button(window, password_text))
+                           lambda x: change_entry_len_to_match_slider
+                           (password_length_entry, pass_len))
+copy_generated_password.bind('<ButtonRelease-1>',
+                             lambda x: copy_on_button
+                             (window, password_text))
 
 # Packing
-length_label.grid(row=1, column=1, columnspan=2, ipadx=56, ipady=5)
-password_length_entry.grid(row=2, column=1, pady=0, padx=(38, 0))
-password_length_scale.grid(row=2, column=2, padx=(0, 42))
-radiobutton_easy_to_read.grid(row=3, column=1, padx=(38, 0))
-radiobutton_easy_to_say.grid(row=3, column=2, ipadx=4, padx=(0, 42))
-checkbutton_upper.grid(row=4, column=1, ipadx=5, ipady=5, padx=(38, 0))
-checkbutton_numbers.grid(row=4, column=2, ipadx=13, ipady=5, padx=(0, 42))
-checkbutton_lower.grid(row=5, column=1, ipadx=5, ipady=5, padx=(38, 0))
-checkbutton_symbols.grid(row=5, column=2, ipadx=14, ipady=5, padx=(0, 42))
-generated_password.grid(row=6, column=1, columnspan=2, padx=(44, 48), sticky="nsew")
-generate_password_button.grid(row=7, column=1, padx=(38, 0))
-copy_generated_password.grid(row=7, column=2, padx=(0, 44))
+length_label.grid(row=1, column=1,
+                  columnspan=2, ipadx=56, ipady=5)
+password_length_entry.grid(row=2, column=1,
+                           pady=0, padx=(38, 0))
+password_length_scale.grid(row=2, column=2,
+                           padx=(0, 42))
+radiobutton_easy_to_read.grid(row=3, column=1,
+                              padx=(38, 0))
+radiobutton_easy_to_say.grid(row=3, column=2,
+                             ipadx=4, padx=(0, 42))
+checkbutton_upper.grid(row=4, column=1,
+                       ipadx=5, ipady=5, padx=(38, 0))
+checkbutton_numbers.grid(row=4, column=2,
+                         ipadx=13, ipady=5, padx=(0, 42))
+checkbutton_lower.grid(row=5, column=1,
+                       ipadx=5, ipady=5, padx=(38, 0))
+checkbutton_symbols.grid(row=5, column=2,
+                         ipadx=14, ipady=5, padx=(0, 42))
+generated_password.grid(row=6, column=1,
+                        columnspan=2, padx=(44, 48), sticky="nsew")
+generate_password_button.grid(row=7,
+                              column=1, padx=(38, 0))
+copy_generated_password.grid(row=7, column=2,
+                             padx=(0, 44))
 
 if __name__ == '__main__':
     window.mainloop()
