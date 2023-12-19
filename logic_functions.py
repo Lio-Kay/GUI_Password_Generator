@@ -3,9 +3,13 @@ import string
 import tkinter as tk
 
 
-def generate_password(checkbutton_upper_var: tk.IntVar, checkbutton_lower_var: tk.IntVar,
-                      checkbutton_numbers_var: tk.IntVar, checkbutton_symbols_var: tk.IntVar,
-                      radiobutton_var: tk.IntVar, pass_len: tk.IntVar, password_text: tk.StringVar) \
+def generate_password(checkbutton_upper_var: tk.IntVar,
+                      checkbutton_lower_var: tk.IntVar,
+                      checkbutton_numbers_var: tk.IntVar,
+                      checkbutton_symbols_var: tk.IntVar,
+                      radiobutton_var: tk.IntVar,
+                      pass_len: tk.IntVar,
+                      password_text: tk.StringVar) \
         -> None:
     """
     :param checkbutton_upper_var: IntVar для кнопки checkbutton_upper
@@ -15,12 +19,14 @@ def generate_password(checkbutton_upper_var: tk.IntVar, checkbutton_lower_var: t
     :param radiobutton_var: IntVar для кнопок radiobutton
     :param pass_len:  IntVar длинны пароля
     :param password_text: StringVar сгенерированного пароля
-    :return: Выводит результат генерации на GUI по нажатию кнопки generate_password_button
+    :return: Выводит результат генерации по нажатию кнопки generate_password_button
 
     Основная функция, генерирует пароль основываясь на 1 slider, 2 radio buttons и 4 check buttons
     """
-    checkbutton_sum = checkbutton_upper_var.get() + checkbutton_lower_var.get() + checkbutton_numbers_var.get() + \
-                      checkbutton_symbols_var.get()
+    checkbutton_sum = (checkbutton_upper_var.get()
+                       + checkbutton_lower_var.get()
+                       + checkbutton_numbers_var.get()
+                       + checkbutton_symbols_var.get())
     if radiobutton_var.get() == 0:
         character_list = get_easy_to_read_table_set(checkbutton_sum)
     elif radiobutton_var.get() == 1:
