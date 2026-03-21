@@ -1,15 +1,29 @@
-# Генератор паролей c GUI на основе Tkinter.TTK
+# GUI Password Generator
 
-## Описание
-Генератор паролей через secrets.choice с возможностью выбора длины пароля от
-4 до 20 символов, опций 'Easy to read', 'Easy to say', возможностью выбора 
-между комбинациями заглавных, строчных букв, чисел, и символов.
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-green)
+![Poetry](https://img.shields.io/badge/Dependency-Poetry-blueviolet)
 
-## Пример работы программы
+## Overview
+
+A desktop password generator application built with **Python** using the **Tkinter/TTK GUI toolkit**.
+
+The application allows users to generate secure passwords using Python’s `secrets` module. Users can customize password length and select which character sets should be used during generation.
+
+The project demonstrates building **desktop graphical interfaces in Python**, implementing **secure random generation**, and organizing application logic separately from the UI layer.
+
+---
+
+## Application Demo
+
 ![usage_example_1.gif](readme_assets%2Fusage_example_1.gif?)
 
-## Инициализация проекта
-Введите в консоль (UNIX):
+## Installation
+### Requirements
+
+- Python 3.x
+- Poetry
+Clone the repository and install dependencies:
   ```sh
   git clone https://github.com/Lio-Kay/GUI_Password_Generator
   cd GUI_Password_Generator/
@@ -18,19 +32,20 @@
   python main.py
   ```
 
-## Описание структуры проекта
-* readme_assets - Файлы для README.md
-* logic_functions.py - Файл с функциями и логикой программы
-* main.py - Точка входа и файл с фреймами, объединяющий логику программы
+## Project Structure
+* readme_assets - Images and GIFs used in README
+* logic_functions.py - Password generation logic and helper functions
+* main.py
 
-## Технологии в проекте
-Библиотеки:
+## Technologies Used
 * tkiner
 * ttkbootstrap
 * screeninfo
 * secrets
 * flake8
 
-Другие особенности:
-* tk grid вместо frames
-* poetry вместо venv/pip
+## Additional Features
+* The interface layout uses the Tkinter grid system for flexible widget positioning
+* Password generation logic is isolated from GUI components
+* Secure randomness is implemented using Python's cryptographically secure secrets module
+* Dependencies are managed using Poetry instead of pip/venv
